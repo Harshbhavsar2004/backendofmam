@@ -78,6 +78,10 @@ const userSchema = new mongoose.Schema({
     ],
     verifytoken:{
         type: String,
+    },
+    Score: {
+        type: Number,
+        default: 0,
     }
 });
 

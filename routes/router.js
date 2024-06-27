@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const Score = require("../models/Score"); // Import the Score model
 
 const keysecret = process.env.SECRET_KEY; // JWT Token secret key
 
@@ -157,19 +158,25 @@ router.get("/validuser", authenticate, async (req, res) => {
 // user logout
 router.get("/logout", authenticate, async (req, res) => {
     try {
+        console.log("Logout request received");
+        console.log("Current user:", req.rootUser);
+        console.log("Current token:", req.token);
+
         req.rootUser.tokens = req.rootUser.tokens.filter((curelem) => {
             return curelem.token !== req.token;
         });
 
         res.clearCookie("usercookie", { path: "/" });
 
-        req.rootUser.save();
+        await req.rootUser.save();
 
         res.status(201).json({ status: 201 });
     } catch (error) {
+        console.error("Error during logout:", error);
         res.status(401).json({ status: 401, error });
     }
 });
+
 
 // send email Link For reset Password
 router.post("/sendpasswordlink", async (req, res) => {
@@ -252,6 +259,7 @@ router.post("/:id/:token", async (req, res) => {
         res.status(401).json({ status: 401, error });
     }
 });
+
 
 
 module.exports = router;

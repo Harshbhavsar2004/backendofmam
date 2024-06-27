@@ -12,7 +12,7 @@ const port = 3000;
 //     res.status(201).json("server created")
 // });
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.BASE_URL , credentials: true }));
 app.use(express.json());
 app.use(cookiParser());
 app.use(router);
