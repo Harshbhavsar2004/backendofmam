@@ -133,6 +133,7 @@ router.post("/login", async (req, res) => {
                     userValid,
                     token
                 };
+                console.log(result);
                 res.status(201).json({ status: 201, result });
             }
         } else {
